@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_celery_beat',
     'ip_tracking',
+    'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
