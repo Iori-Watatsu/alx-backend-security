@@ -1,9 +1,0 @@
-gunicorn
-celery
-django
-django-ratelimit
-django-ipware
-redis
-geoip2
-drf-yasg
-django-celery-beat
