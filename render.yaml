@@ -31,12 +31,4 @@ services:
       - source: 0.0.0.0/0
         description: allow internal services
 
-fromService:
-  name: redis
-  type: redis
-  property: connectionString
-
-ipAllowList:
-  - source: 0.0.0.0/0
-    description: allow internal services
 
