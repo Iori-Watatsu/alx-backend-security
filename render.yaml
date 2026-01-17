@@ -11,6 +11,8 @@ services:
         generateValue: true
       - key: DEBUG
         value: "False"
+      - key: CELERY_BROKER_URL
+        value: ${REDIS_URL}
 
   - type: worker
     name: ip-tracking-celery
@@ -21,17 +23,13 @@ services:
       - key: DJANGO_SETTINGS_MODULE
         value: core.settings
       - key: CELERY_BROKER_URL
-        fromService:
-          name: ip-tracking-redis
-          type: redis
-          property: connectionString
+        value: ${REDIS_URL}
 
   - type: redis
     name: ip-tracking-redis
     ipAllowList:
       - source: 0.0.0.0/0
         description: allow internal services
-
 
 fromService:
   name: redis
