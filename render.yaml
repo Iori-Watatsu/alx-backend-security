@@ -25,5 +25,7 @@ services:
           name: redis
           type: redis
 
-  - type: redis
-    name: redis
+fromService:
+  name: redis
+  type: redis
+  property: connectionString
