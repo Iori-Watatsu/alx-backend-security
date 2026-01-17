@@ -22,8 +22,16 @@ services:
         value: core.settings
       - key: CELERY_BROKER_URL
         fromService:
-          name: redis
+          name: ip-tracking-redis
           type: redis
+          property: connectionString
+
+  - type: redis
+    name: ip-tracking-redis
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: allow internal services
+
 
 fromService:
   name: redis
@@ -34,36 +42,3 @@ ipAllowList:
   - source: 0.0.0.0/0
     description: allow internal services
 
-services:
-  - type: web
-    name: ip-tracking-web
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn core.wsgi:application
-    envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: core.settings
-      - key: SECRET_KEY
-        generateValue: true
-      - key: DEBUG
-        value: "False"
-
-  - type: worker
-    name: ip-tracking-celery
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: celery -A core worker -l info
-    envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: core.settings
-      - key: CELERY_BROKER_URL
-        fromService:
-          name: ip-tracking-redis
-          type: redis
-          property: connectionString
-
-  - type: redis
-    name: ip-tracking-redis
-    ipAllowList:
-      - source: 0.0.0.0/0
-        description: allow internal services
